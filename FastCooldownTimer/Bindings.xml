@@ -1,0 +1,5 @@
+<Bindings>
+	<Binding name="FASTCOOLDOWNTIMER" description="Toggle cooldown count" header="FASTCOOLDOWNTIMERHEADER">
+		FastCooldownTimer_Toggle_Enabled(-1);
+	</Binding>
+</Bindings>

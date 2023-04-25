@@ -1,0 +1,2081 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ C:\Projects\WoW\Bin\Interface\FrameXML\UI.xsd">
+	<Script file="localization.lua"/> 
+	<Script file="localization.de.lua"/> 
+	<Script file="localization.fr.lua"/> 
+	<Script file="FastCooldownTimer.lua"/> 
+	<Script file="FastCooldownTimer_Options.lua"/> 
+	
+	<Frame name="FastCooldownTimerFrame" frameStrata="LOW" enableMouse="false" parent="UIParent" hidden="false">
+		<Scripts>
+			<OnLoad>
+				FastCooldownTimer_OnLoad();
+			</OnLoad>
+			<OnEvent>
+				FastCooldownTimer_OnEvent(event);
+			</OnEvent>
+			<OnUpdate>
+				FastCooldownTimer_OnUpdate(arg1);
+			</OnUpdate>
+		</Scripts>
+	</Frame>
+	<Frame name="ActionButton1FastCooldownTimerFrame" parent="ActionButton1" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="ActionButton1FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="ActionButton2FastCooldownTimerFrame" parent="ActionButton2" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="ActionButton2FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="ActionButton3FastCooldownTimerFrame" parent="ActionButton3" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="ActionButton3FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="ActionButton4FastCooldownTimerFrame" parent="ActionButton4" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="ActionButton4FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="ActionButton5FastCooldownTimerFrame" parent="ActionButton5" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="ActionButton5FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="ActionButton6FastCooldownTimerFrame" parent="ActionButton6" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="ActionButton6FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="ActionButton7FastCooldownTimerFrame" parent="ActionButton7" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="ActionButton7FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="ActionButton8FastCooldownTimerFrame" parent="ActionButton8" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="ActionButton8FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="ActionButton9FastCooldownTimerFrame" parent="ActionButton9" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="ActionButton9FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="ActionButton10FastCooldownTimerFrame" parent="ActionButton10" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="ActionButton10FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="ActionButton11FastCooldownTimerFrame" parent="ActionButton11" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="ActionButton11FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="ActionButton12FastCooldownTimerFrame" parent="ActionButton12" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="ActionButton12FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="BonusActionButton1FastCooldownTimerFrame" parent="BonusActionButton1" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="BonusActionButton1FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="BonusActionButton2FastCooldownTimerFrame" parent="BonusActionButton2" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="BonusActionButton2FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="BonusActionButton3FastCooldownTimerFrame" parent="BonusActionButton3" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="BonusActionButton3FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="BonusActionButton4FastCooldownTimerFrame" parent="BonusActionButton4" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="BonusActionButton4FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="BonusActionButton5FastCooldownTimerFrame" parent="BonusActionButton5" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="BonusActionButton5FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="BonusActionButton6FastCooldownTimerFrame" parent="BonusActionButton6" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="BonusActionButton6FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="BonusActionButton7FastCooldownTimerFrame" parent="BonusActionButton7" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="BonusActionButton7FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="BonusActionButton8FastCooldownTimerFrame" parent="BonusActionButton8" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="BonusActionButton8FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="BonusActionButton9FastCooldownTimerFrame" parent="BonusActionButton9" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="BonusActionButton9FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="BonusActionButton10FastCooldownTimerFrame" parent="BonusActionButton10" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="BonusActionButton10FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="BonusActionButton11FastCooldownTimerFrame" parent="BonusActionButton11" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="BonusActionButton11FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="BonusActionButton12FastCooldownTimerFrame" parent="BonusActionButton12" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="BonusActionButton12FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="ShapeshiftButton1FastCooldownTimerFrame" parent="ShapeshiftButton1" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="ShapeshiftButton1FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="ShapeshiftButton2FastCooldownTimerFrame" parent="ShapeshiftButton2" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="ShapeshiftButton2FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="ShapeshiftButton3FastCooldownTimerFrame" parent="ShapeshiftButton3" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="ShapeshiftButton3FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="ShapeshiftButton4FastCooldownTimerFrame" parent="ShapeshiftButton4" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="ShapeshiftButton4FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="ShapeshiftButton5FastCooldownTimerFrame" parent="ShapeshiftButton5" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="ShapeshiftButton5FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="ShapeshiftButton6FastCooldownTimerFrame" parent="ShapeshiftButton6" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="ShapeshiftButton6FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="ShapeshiftButton7FastCooldownTimerFrame" parent="ShapeshiftButton7" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="ShapeshiftButton7FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="ShapeshiftButton8FastCooldownTimerFrame" parent="ShapeshiftButton8" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="ShapeshiftButton8FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="ShapeshiftButton9FastCooldownTimerFrame" parent="ShapeshiftButton9" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="ShapeshiftButton9FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="ShapeshiftButton10FastCooldownTimerFrame" parent="ShapeshiftButton10" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="ShapeshiftButton10FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="MultiBarBottomLeftButton1FastCooldownTimerFrame" parent="MultiBarBottomLeftButton1" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="MultiBarBottomLeftButton1FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="MultiBarBottomLeftButton2FastCooldownTimerFrame" parent="MultiBarBottomLeftButton2" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="MultiBarBottomLeftButton2FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="MultiBarBottomLeftButton3FastCooldownTimerFrame" parent="MultiBarBottomLeftButton3" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="MultiBarBottomLeftButton3FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="MultiBarBottomLeftButton4FastCooldownTimerFrame" parent="MultiBarBottomLeftButton4" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="MultiBarBottomLeftButton4FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="MultiBarBottomLeftButton5FastCooldownTimerFrame" parent="MultiBarBottomLeftButton5" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="MultiBarBottomLeftButton5FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="MultiBarBottomLeftButton6FastCooldownTimerFrame" parent="MultiBarBottomLeftButton6" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="MultiBarBottomLeftButton6FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="MultiBarBottomLeftButton7FastCooldownTimerFrame" parent="MultiBarBottomLeftButton7" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="MultiBarBottomLeftButton7FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="MultiBarBottomLeftButton8FastCooldownTimerFrame" parent="MultiBarBottomLeftButton8" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="MultiBarBottomLeftButton8FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="MultiBarBottomLeftButton9FastCooldownTimerFrame" parent="MultiBarBottomLeftButton9" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="MultiBarBottomLeftButton9FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="MultiBarBottomLeftButton10FastCooldownTimerFrame" parent="MultiBarBottomLeftButton10" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="MultiBarBottomLeftButton10FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="MultiBarBottomLeftButton11FastCooldownTimerFrame" parent="MultiBarBottomLeftButton11" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="MultiBarBottomLeftButton11FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="MultiBarBottomLeftButton12FastCooldownTimerFrame" parent="MultiBarBottomLeftButton12" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="MultiBarBottomLeftButton12FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="MultiBarBottomRightButton1FastCooldownTimerFrame" parent="MultiBarBottomRightButton1" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="MultiBarBottomRightButton1FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="MultiBarBottomRightButton2FastCooldownTimerFrame" parent="MultiBarBottomRightButton2" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="MultiBarBottomRightButton2FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="MultiBarBottomRightButton3FastCooldownTimerFrame" parent="MultiBarBottomRightButton3" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="MultiBarBottomRightButton3FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="MultiBarBottomRightButton4FastCooldownTimerFrame" parent="MultiBarBottomRightButton4" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="MultiBarBottomRightButton4FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="MultiBarBottomRightButton5FastCooldownTimerFrame" parent="MultiBarBottomRightButton5" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="MultiBarBottomRightButton5FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="MultiBarBottomRightButton6FastCooldownTimerFrame" parent="MultiBarBottomRightButton6" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="MultiBarBottomRightButton6FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="MultiBarBottomRightButton7FastCooldownTimerFrame" parent="MultiBarBottomRightButton7" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="MultiBarBottomRightButton7FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="MultiBarBottomRightButton8FastCooldownTimerFrame" parent="MultiBarBottomRightButton8" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="MultiBarBottomRightButton8FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="MultiBarBottomRightButton9FastCooldownTimerFrame" parent="MultiBarBottomRightButton9" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="MultiBarBottomRightButton9FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="MultiBarBottomRightButton10FastCooldownTimerFrame" parent="MultiBarBottomRightButton10" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="MultiBarBottomRightButton10FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="MultiBarBottomRightButton11FastCooldownTimerFrame" parent="MultiBarBottomRightButton11" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="MultiBarBottomRightButton11FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="MultiBarBottomRightButton12FastCooldownTimerFrame" parent="MultiBarBottomRightButton12" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="MultiBarBottomRightButton12FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="MultiBarRightButton1FastCooldownTimerFrame" parent="MultiBarRightButton1" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="MultiBarRightButton1FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="MultiBarRightButton2FastCooldownTimerFrame" parent="MultiBarRightButton2" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="MultiBarRightButton2FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="MultiBarRightButton3FastCooldownTimerFrame" parent="MultiBarRightButton3" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="MultiBarRightButton3FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="MultiBarRightButton4FastCooldownTimerFrame" parent="MultiBarRightButton4" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="MultiBarRightButton4FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="MultiBarRightButton5FastCooldownTimerFrame" parent="MultiBarRightButton5" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="MultiBarRightButton5FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="MultiBarRightButton6FastCooldownTimerFrame" parent="MultiBarRightButton6" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="MultiBarRightButton6FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="MultiBarRightButton7FastCooldownTimerFrame" parent="MultiBarRightButton7" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="MultiBarRightButton7FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="MultiBarRightButton8FastCooldownTimerFrame" parent="MultiBarRightButton8" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="MultiBarRightButton8FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="MultiBarRightButton9FastCooldownTimerFrame" parent="MultiBarRightButton9" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="MultiBarRightButton9FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="MultiBarRightButton10FastCooldownTimerFrame" parent="MultiBarRightButton10" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="MultiBarRightButton10FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="MultiBarRightButton11FastCooldownTimerFrame" parent="MultiBarRightButton11" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="MultiBarRightButton11FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="MultiBarRightButton12FastCooldownTimerFrame" parent="MultiBarRightButton12" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="MultiBarRightButton12FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="MultiBarLeftButton1FastCooldownTimerFrame" parent="MultiBarLeftButton1" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="MultiBarLeftButton1FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="MultiBarLeftButton2FastCooldownTimerFrame" parent="MultiBarLeftButton2" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="MultiBarLeftButton2FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="MultiBarLeftButton3FastCooldownTimerFrame" parent="MultiBarLeftButton3" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="MultiBarLeftButton3FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="MultiBarLeftButton4FastCooldownTimerFrame" parent="MultiBarLeftButton4" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="MultiBarLeftButton4FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="MultiBarLeftButton5FastCooldownTimerFrame" parent="MultiBarLeftButton5" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="MultiBarLeftButton5FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="MultiBarLeftButton6FastCooldownTimerFrame" parent="MultiBarLeftButton6" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="MultiBarLeftButton6FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="MultiBarLeftButton7FastCooldownTimerFrame" parent="MultiBarLeftButton7" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="MultiBarLeftButton7FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="MultiBarLeftButton8FastCooldownTimerFrame" parent="MultiBarLeftButton8" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="MultiBarLeftButton8FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="MultiBarLeftButton9FastCooldownTimerFrame" parent="MultiBarLeftButton9" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="MultiBarLeftButton9FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="MultiBarLeftButton10FastCooldownTimerFrame" parent="MultiBarLeftButton10" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="MultiBarLeftButton10FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="MultiBarLeftButton11FastCooldownTimerFrame" parent="MultiBarLeftButton11" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="MultiBarLeftButton11FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+	<Frame name="MultiBarLeftButton12FastCooldownTimerFrame" parent="MultiBarLeftButton12" hidden="true">
+        <Size>
+            <AbsDimension x="32" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="MultiBarLeftButton12FastCooldownTimer" inherits="GameFontNormalLarge" hidden="true" justifyH="CENTER">
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+
+	<GameTooltip name="FastCooldownTimerTooltip" frameStrata="TOOLTIP" hidden="true" inherits="GameTooltipTemplate">
+	<Scripts>
+		<OnLoad>
+			this:SetBackdropBorderColor(TOOLTIP_DEFAULT_COLOR.r, TOOLTIP_DEFAULT_COLOR.g, TOOLTIP_DEFAULT_COLOR.b);
+			this:SetBackdropColor(TOOLTIP_DEFAULT_BACKGROUND_COLOR.r, TOOLTIP_DEFAULT_BACKGROUND_COLOR.g, TOOLTIP_DEFAULT_BACKGROUND_COLOR.b);
+		</OnLoad>
+	</Scripts>
+	</GameTooltip>
+</Ui>
+
