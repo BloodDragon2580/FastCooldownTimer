@@ -1,8 +1,8 @@
-## Interface: 100206
+## Interface: 100207
 ## Title:|cffd6266cFastCooldownTimer|r
 ## Notes: Shows a Cooldown Count on Spell Icon and Item
 ## Author: BloddDragon2580
-## Version: 1.9
+## Version: 2.0
 ## SavedVariables: FastCooldownTimerDB
 ## IconTexture: Interface\AddOns\FastCooldownTimer\Media\Texture\logo
 
