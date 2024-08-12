@@ -342,7 +342,7 @@ function FastCooldownTimer.SetCooldown(frame, start, duration, enable, forceShow
 end
 
 function FastCooldownTimer:CreateFastCooldownTimer(frame, start, duration)
-	local fname = frame:GetName();
+	local fname = frame:GetName()
 	frame.cooldownCounFrame = CreateFrame("Frame", nil, frame:GetParent())
 	local textFrame = frame.cooldownCounFrame
 
@@ -354,9 +354,9 @@ function FastCooldownTimer:CreateFastCooldownTimer(frame, start, duration)
 	textFrame.text = textFrame:CreateFontString(nil, "OVERLAY")
 	textFrame.text:SetPoint("CENTER", textFrame, "CENTER", 0, -1)
 
-	textFrame.icon =
-		_G[frame:GetParent():GetName() .. "Icon"] or
-		_G[frame:GetParent():GetName() .. "IconTexture"]
+	-- Absicherung gegen nil Werte für das Icon
+	local iconName = frame:GetParent():GetName()
+	textFrame.icon = _G[iconName .. "Icon"] or _G[iconName .. "IconTexture"]
 
 	if textFrame.icon then        
 		textFrame:SetScript("OnUpdate", function(self, elapsed)
@@ -369,7 +369,7 @@ function FastCooldownTimer:CreateFastCooldownTimer(frame, start, duration)
 				if floor(remain + 1) > 0 and textFrame.icon:IsVisible() then
 					local text, toNextUpdate, size, isWarn = FastCooldownTimer:GetFormattedTime(remain)
 					textFrame.text:SetFont(FastCooldownTimer.font, size, "OUTLINE")
-					color = FastCooldownTimer.db.profile.color_common
+					local color = FastCooldownTimer.db.profile.color_common
 					if isWarn then
 						if textFrame.isWarn == nil then
 							textFrame.isWarn = 2
@@ -390,12 +390,12 @@ function FastCooldownTimer:CreateFastCooldownTimer(frame, start, duration)
 					textFrame.text:SetTextColor(color.r, color.g, color.b)
 					if type(text) == "number" then
 						if text < 1 and FastCooldownTimer.db.profile.ShowDecimal then
-							textFrame.text:SetText( format("%.1f",text) )
+							textFrame.text:SetText(format("%.1f", text))
 						else
-							textFrame.text:SetText( format("%.0f",text) )
+							textFrame.text:SetText(format("%.0f", text))
 						end
 					else
-						textFrame.text:SetText( text )
+						textFrame.text:SetText(text)
 					end
 					textFrame.timeToNextUpdate = toNextUpdate
 				else
@@ -410,6 +410,9 @@ function FastCooldownTimer:CreateFastCooldownTimer(frame, start, duration)
 				textFrame.timeToNextUpdate = textFrame.timeToNextUpdate - elapsed
 			end
 		end)
+	else
+		-- Log an error if the icon is not found
+		print("FastCooldownTimer: Error - Icon not found for frame: " .. fname)
 	end
 
 	textFrame:Hide()
