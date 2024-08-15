@@ -638,4 +638,4 @@ end)
 
 f:RegisterEvent('ACTIONBAR_UPDATE_COOLDOWN')
 
-FastCooldownTimer_ChatPrint(sformat(L["FastCooldownTimer v%s loaded!\nType /FastCooldownTimer (or /fct) for help"],GetAddOnMetadata("FastCooldownTimer", "Version")));
+FastCooldownTimer_ChatPrint(sformat(L["FastCooldownTimer v%s loaded!\nType /FastCooldownTimer (or /fct) for help"],C_AddOns.GetAddOnMetadata("FastCooldownTimer", "Version")));
