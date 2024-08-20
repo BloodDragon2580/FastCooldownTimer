@@ -342,82 +342,79 @@ function FastCooldownTimer.SetCooldown(frame, start, duration, enable, forceShow
 end
 
 function FastCooldownTimer:CreateFastCooldownTimer(frame, start, duration)
-	local fname = frame:GetName()
-	frame.cooldownCounFrame = CreateFrame("Frame", nil, frame:GetParent())
-	local textFrame = frame.cooldownCounFrame
+    local fname = frame:GetName()
+    frame.cooldownCounFrame = CreateFrame("Frame", nil, frame:GetParent())
+    local textFrame = frame.cooldownCounFrame
 
-	textFrame:SetAllPoints(frame:GetParent())
-	textFrame:SetFrameLevel(textFrame:GetFrameLevel() + 5)
-	textFrame:SetToplevel(true)
-	textFrame.timeToNextUpdate = 0
+    textFrame:SetAllPoints(frame:GetParent())
+    textFrame:SetFrameLevel(textFrame:GetFrameLevel() + 5)
+    textFrame:SetToplevel(true)
+    textFrame.timeToNextUpdate = 0
 
-	textFrame.text = textFrame:CreateFontString(nil, "OVERLAY")
-	textFrame.text:SetPoint("CENTER", textFrame, "CENTER", 0, -1)
+    textFrame.text = textFrame:CreateFontString(nil, "OVERLAY")
+    textFrame.text:SetPoint("CENTER", textFrame, "CENTER", 0, -1)
 
-	-- Absicherung gegen nil Werte für das Icon
-	local iconName = frame:GetParent():GetName()
-	textFrame.icon = _G[iconName .. "Icon"] or _G[iconName .. "IconTexture"]
+    local iconName = frame:GetParent() and frame:GetParent():GetName()
+    if iconName then
+        textFrame.icon = _G[iconName .. "Icon"] or _G[iconName .. "IconTexture"]
+    end
 
-	if textFrame.icon then        
-		textFrame:SetScript("OnUpdate", function(self, elapsed)
-			if textFrame.timeToNextUpdate <= 0 or not textFrame.icon:IsVisible() then
-				local current_time = GetTime()
-				if current_time < textFrame.start then return end
+    if not textFrame.icon then
+        print("FastCooldownTimer: Error - Icon not found for frame: " .. (iconName or "nil"))
+        return
+    end
 
-				local remain = textFrame.duration - (current_time - textFrame.start)
+    textFrame:SetScript("OnUpdate", function(self, elapsed)
+        if textFrame.timeToNextUpdate <= 0 or not textFrame.icon:IsVisible() then
+            local current_time = GetTime()
+            if current_time < textFrame.start then return end
 
-				if floor(remain + 1) > 0 and textFrame.icon:IsVisible() then
-					local text, toNextUpdate, size, isWarn = FastCooldownTimer:GetFormattedTime(remain)
-					textFrame.text:SetFont(FastCooldownTimer.font, size, "OUTLINE")
-					local color = FastCooldownTimer.db.profile.color_common
-					if isWarn then
-						if textFrame.isWarn == nil then
-							textFrame.isWarn = 2
-							textFrame.nextWarnSwitch = current_time + FastCooldownTimer.db.profile.WarnSpeed
-						end
-						if current_time >= textFrame.nextWarnSwitch then
-							if textFrame.isWarn == 2 then
-								textFrame.isWarn = 1
-							else
-								textFrame.isWarn = 2
-							end
-							textFrame.nextWarnSwitch = current_time + FastCooldownTimer.db.profile.WarnSpeed
-						end
-						if textFrame.isWarn == 2 then
-							color = FastCooldownTimer.db.profile.color_warn
-						end
-					end
-					textFrame.text:SetTextColor(color.r, color.g, color.b)
-					if type(text) == "number" then
-						if text < 1 and FastCooldownTimer.db.profile.ShowDecimal then
-							textFrame.text:SetText(format("%.1f", text))
-						else
-							textFrame.text:SetText(format("%.0f", text))
-						end
-					else
-						textFrame.text:SetText(text)
-					end
-					textFrame.timeToNextUpdate = toNextUpdate
-				else
-					if FastCooldownTimer.db.profile.shine and textFrame.icon:IsVisible() then
-						FastCooldownTimer:StartToShine(textFrame.icon)
-					end
-					textFrame.isWarn = nil
-					textFrame.nextWarnSwitch = 0
-					textFrame:Hide()
-				end
-			else
-				textFrame.timeToNextUpdate = textFrame.timeToNextUpdate - elapsed
-			end
-		end)
-	else
-		-- Log an error if the icon is not found
-		print("FastCooldownTimer: Error - Icon not found for frame: " .. fname)
-	end
+            local remain = textFrame.duration - (current_time - textFrame.start)
 
-	textFrame:Hide()
+            if floor(remain + 1) > 0 and textFrame.icon:IsVisible() then
+                local text, toNextUpdate, size, isWarn = FastCooldownTimer:GetFormattedTime(remain)
+                textFrame.text:SetFont(FastCooldownTimer.font, size, "OUTLINE")
+                local color = FastCooldownTimer.db.profile.color_common
+                if isWarn then
+                    if textFrame.isWarn == nil then
+                        textFrame.isWarn = 2
+                        textFrame.nextWarnSwitch = current_time + FastCooldownTimer.db.profile.WarnSpeed
+                    end
+                    if current_time >= textFrame.nextWarnSwitch then
+                        textFrame.isWarn = (textFrame.isWarn == 2) and 1 or 2
+                        textFrame.nextWarnSwitch = current_time + FastCooldownTimer.db.profile.WarnSpeed
+                    end
+                    if textFrame.isWarn == 2 then
+                        color = FastCooldownTimer.db.profile.color_warn
+                    end
+                end
+                textFrame.text:SetTextColor(color.r, color.g, color.b)
+                if type(text) == "number" then
+                    if text < 1 and FastCooldownTimer.db.profile.ShowDecimal then
+                        textFrame.text:SetText(format("%.1f", text))
+                    else
+                        textFrame.text:SetText(format("%.0f", text))
+                    end
+                else
+                    textFrame.text:SetText(text)
+                end
+                textFrame.timeToNextUpdate = toNextUpdate
+            else
+                if FastCooldownTimer.db.profile.shine and textFrame.icon:IsVisible() then
+                    FastCooldownTimer:StartToShine(textFrame.icon)
+                end
+                textFrame.isWarn = nil
+                textFrame.nextWarnSwitch = 0
+                textFrame:Hide()
+            end
+        else
+            textFrame.timeToNextUpdate = textFrame.timeToNextUpdate - elapsed
+        end
+    end)
 
-	return textFrame
+    textFrame:Hide()
+
+    return textFrame
 end
 
 function FastCooldownTimer:Child_OnShow(self, event, ...)
