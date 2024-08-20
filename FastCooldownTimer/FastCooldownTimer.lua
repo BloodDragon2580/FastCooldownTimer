@@ -316,29 +316,39 @@ function FastCooldownTimer:initFontStyle()
 end
 
 function FastCooldownTimer.SetCooldown(frame, start, duration, enable, forceShowDrawEdge, modRate)
-	local fname = frame:GetName();
+    local fname = frame:GetName()
 
-	if FastCooldownTimer:CheckBlacklist(fname) then
-		return
-	end
-	
-	frame:SetAlpha(FastCooldownTimer.db.profile.hideAnimation and 0 or 1)
+    if FastCooldownTimer:CheckBlacklist(fname) then
+        return
+    end
+    
+    frame:SetAlpha(FastCooldownTimer.db.profile.hideAnimation and 0 or 1)
 
-	if enable and enable ~= 0 and start > 0 and duration > FastCooldownTimer.db.profile.minimumDuration
-	then
-		local FCT = frame.cooldownCounFrame or FastCooldownTimer:CreateFastCooldownTimer(frame, start, duration)
-		FCT.start = start
-		FCT.duration = duration
-		FCT.timeToNextUpdate = 0
-		if not FCT:IsShown() then
-			FCT:Show()
-		end
-	else
-		local FCT = frame.cooldownCounFrame
-		if FCT and FCT:IsShown() then
-			FCT:Hide()
-		end
-	end
+    if enable and enable ~= 0 and start > 0 and duration > FastCooldownTimer.db.profile.minimumDuration then
+        local FCT = frame.cooldownCounFrame
+        if not FCT then
+            FCT = FastCooldownTimer:CreateFastCooldownTimer(frame, start, duration)
+            if not FCT then
+                print("FastCooldownTimer: Error - Failed to create FCT frame for:", fname)
+                return
+            end
+            frame.cooldownCounFrame = FCT
+        end
+
+        if FCT then
+            FCT.start = start
+            FCT.duration = duration
+            FCT.timeToNextUpdate = 0
+            if not FCT:IsShown() then
+                FCT:Show()
+            end
+        end
+    else
+        local FCT = frame.cooldownCounFrame
+        if FCT and FCT:IsShown() then
+            FCT:Hide()
+        end
+    end
 end
 
 function FastCooldownTimer:CreateFastCooldownTimer(frame, start, duration)
@@ -361,7 +371,7 @@ function FastCooldownTimer:CreateFastCooldownTimer(frame, start, duration)
 
     if not textFrame.icon then
         print("FastCooldownTimer: Error - Icon not found for frame: " .. (iconName or "nil"))
-        return
+        return nil
     end
 
     textFrame:SetScript("OnUpdate", function(self, elapsed)
@@ -501,24 +511,24 @@ function FastCooldownTimer:Shine_Update()
 end
 
 function FastCooldownTimer:CheckBlacklist(frameName)
-	if not frameName or _G[frameName].noFastCooldownTimer then
-		return true
-	end
-	for _, v in ipairs(blacklist) do
-		if strfind(frameName, v) then
-			_G[frameName].noFastCooldownTimer=1
-			return true
-		end
-	end
-	if(FastCooldownTimer.db.profile.blacklist) then
-		for _, v in ipairs(FastCooldownTimer.db.profile.blacklist) do
-			if strfind(frameName, v) then
-				_G[frameName].noFastCooldownTimer=1
-				return true
-			end
-		end
-	end
-	return false
+    if not frameName or _G[frameName].noFastCooldownTimer then
+        return true
+    end
+    for _, v in ipairs(blacklist) do
+        if strfind(frameName, v) then
+            _G[frameName].noFastCooldownTimer = true
+            return true
+        end
+    end
+    if FastCooldownTimer.db.profile.blacklist then
+        for _, v in ipairs(FastCooldownTimer.db.profile.blacklist) do
+            if strfind(frameName, v) then
+                _G[frameName].noFastCooldownTimer = true
+                return true
+            end
+        end
+    end
+    return false
 end
 
 local function FastCooldownTimer_ChatPrint(str,r,g,b)
