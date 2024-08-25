@@ -329,7 +329,7 @@ function FastCooldownTimer.SetCooldown(frame, start, duration, enable, forceShow
         if not FCT then
             FCT = FastCooldownTimer:CreateFastCooldownTimer(frame, start, duration)
             if not FCT then
-                print("FastCooldownTimer: Error - Failed to create FCT frame for:", fname)
+                --print("FastCooldownTimer: Error - Failed to create FCT frame for:", fname)
                 return
             end
             frame.cooldownCounFrame = FCT
@@ -370,7 +370,7 @@ function FastCooldownTimer:CreateFastCooldownTimer(frame, start, duration)
     end
 
     if not textFrame.icon then
-        print("FastCooldownTimer: Error - Icon not found for frame: " .. (iconName or "nil"))
+        --print("FastCooldownTimer: Error - Icon not found for frame: " .. (iconName or "nil"))
         return nil
     end
 
