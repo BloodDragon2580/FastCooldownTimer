@@ -1,35 +1,59 @@
-Deutsch:
+# ⏱️ Fast Cooldown Timer
+# English
 
-Addon: FastCooldownTimer
+A **powerful World of Warcraft addon** that replaces Blizzard’s default cooldown text with a fully customizable timer display.  
+It’s lightweight, flexible, and perfect for players who want clear and precise cooldown information right on their action bars. ⚡
 
-Beschreibung: FastCooldownTimer ist ein praktisches Addon für World of Warcraft, das dir hilft, die Abklingzeiten von Fähigkeiten und Gegenständen auf deiner Aktionsleiste besser zu überwachen. Es zeigt eine benutzerdefinierte Abklingzeit-Anzeige an, die je nach verbleibender Zeit variiert. Die Anzeige kann angepasst werden, einschließlich Schriftart, Schriftgröße und Farben. Das Addon bietet auch eine Funktion, um die Blizzard-Animationen zu verbergen und eine Warnung anzuzeigen, wenn eine Abklingzeit fast abgelaufen ist.
+---
 
-Funktionen:
+## ✨ Features
 
-Benutzerdefinierte Abklingzeit-Anzeige für Fähigkeiten und Gegenstände.
-Anpassbare Schriftarten, Schriftgrößen und Farben.
-Optionale Blendeffekte für das Ende der Abklingzeit.
-Möglichkeit, die ursprünglichen Blizzard-Animationen auszublenden.
-Benutzerdefinierte Schwarzliste zum Ausschluss bestimmter Frames von der Anzeige.
+✅ **Customizable font settings** (style, size, color)  
+✅ **Dynamic scaling** – font size changes depending on cooldown length  
+✅ **Warning color & blinking** when cooldown is almost over  
+✅ **Optional shine effect** when a cooldown finishes  
+✅ **Hide Blizzard’s default cooldown animation**  
+✅ **Advanced time formatting** (seconds, minutes, hours, days)  
+✅ **Decimal display** for sub-second precision  
+✅ **Blacklist system** – exclude unwanted frames  
+✅ **Configuration via `/fct` or Interface Options**  
 
-Befehle:
+---
 
-/FastCooldownTimer oder /fct: Öffnet das Optionsmenü des Addons.
+## 🖼️ Example
 
-English:
+- Long cooldowns (10+ minutes) → small numbers  
+- Short cooldowns (<10s) → large, blinking red numbers  
+- Final second → optional **decimal precision**  
+- Cooldown ends → optional **shine effect ✨**  
 
-Addon: FastCooldownTimer
+---
 
-Description: FastCooldownTimer is a useful addon for World of Warcraft that helps you keep track of ability and item cooldowns on your action bars. It displays a custom cooldown timer that varies based on the remaining time. The display can be customized, including font, font size, and colors. The addon also provides an option to hide Blizzard's animations and show a warning when a cooldown is near completion.
+# ⏱️ Fast Cooldown Timer
+# Deutsch
 
-Features:
+Ein **mächtiges World of Warcraft Addon**, das den Standard-Cooldown-Text von Blizzard ersetzt und eine **vollständig anpassbare Anzeige** bietet.  
+Leichtgewichtig, flexibel und perfekt für Spieler:innen, die ihre Abklingzeiten **klar und präzise** direkt auf den Aktionsleisten sehen möchten. ⚡
 
-Custom cooldown timer display for abilities and items.
-Customizable fonts, font sizes, and colors.
-Optional shine effects at the end of the cooldown.
-Ability to hide the original Blizzard animations.
-Custom blacklist to exclude certain frames from the display.
+---
 
-Commands:
+## ✨ Features
 
-/FastCooldownTimer or /fct: Opens the addon's options menu.
+✅ **Anpassbare Schriftarten** (Stil, Größe, Farbe)  
+✅ **Dynamische Skalierung** – Schriftgröße hängt von der Dauer ab  
+✅ **Warnfarbe & Blinken** bei fast abgelaufenem Cooldown  
+✅ **Optionaler Glanzeffekt ✨** beim Ende des Cooldowns  
+✅ **Blizzards Standard-Animation ausblendbar**  
+✅ **Fortschrittliche Zeitformatierung** (Sekunden, Minuten, Stunden, Tage)  
+✅ **Dezimalanzeige** für unter 1 Sekunde  
+✅ **Blacklist-System** – bestimmte Frames ausschließen  
+✅ **Konfiguration über `/fct` oder Interface-Optionen**  
+
+---
+
+## 🖼️ Beispiel
+
+- Lange Abklingzeiten (10+ Minuten) → kleine Zahlen  
+- Kurze Abklingzeiten (<10s) → große, blinkende rote Zahlen  
+- Letzte Sekunde → optional mit **Dezimalpräzision**  
+- Cooldown endet → optionaler **Glanz-Effekt**  
