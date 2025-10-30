@@ -7,6 +7,30 @@ local dialog = LibStub("AceConfigDialog-3.0")
 local blacklist = { "TargetFrame", "PetAction", "TotemFrame", "PartyFrame", "TargetofTargetFrame", "FocusFrame", "RaidFrame", "CompactRaidGroup", "LAB10ChargeCooldown" }
 local sformat = string.format
 
+-- Safe helpers ---------------------------------------------------------------
+local function SafeGetName(obj)
+    if not obj then return nil end
+    local ok, name = pcall(function() return obj:GetName() end)
+    if ok then return name end
+    return nil
+end
+
+local function SafeGetParent(obj)
+    if not obj then return nil end
+    local ok, parent = pcall(function() return obj:GetParent() end)
+    if ok then return parent end
+    return nil
+end
+
+local function SafeCall(obj, method, ...)
+    if not obj then return false end
+    local fn = obj[method]
+    if type(fn) ~= "function" then return false end
+    local ok = pcall(fn, obj, ...)
+    return ok
+end
+-- ----------------------------------------------------------------------------
+
 local defaults = {
 	profile = {
 		shine = false,
@@ -278,37 +302,31 @@ function FastCooldownTimer:OnInitialize()
 end
 
 local actions = {}
-local function action_OnShow(self)
-  actions[self] = true
-end
-
-local function action_OnHide(self)
-  actions[self] = nil
-end
+local function action_OnShow(self) actions[self] = true end
+local function action_OnHide(self) actions[self] = nil end
 
 local function action_Add(button, action, cooldown)
   if not cooldown.FastCooldownTimerAction then
-    cooldown:HookScript('OnShow', action_OnShow);
-    cooldown:HookScript('OnHide', action_OnHide);
+    cooldown:HookScript('OnShow', action_OnShow)
+    cooldown:HookScript('OnHide', action_OnHide)
   end
-  cooldown.FastCooldownTimerAction = action;
+  cooldown.FastCooldownTimerAction = action
 end
 
 local function actions_Update()
   for cooldown in pairs(actions) do
-    local start, duration = GetActionCooldown(cooldown.FastCooldownTimerAction);
+    local start, duration = GetActionCooldown(cooldown.FastCooldownTimerAction)
   end
 end
 
 function FastCooldownTimer:OnEnable()
 	self:initFontStyle()
-	hooksecurefunc("CooldownFrame_Set",FastCooldownTimer.SetCooldown);
-    hooksecurefunc('SetActionUIButton', action_Add);
+	hooksecurefunc("CooldownFrame_Set", FastCooldownTimer.SetCooldown)
+    hooksecurefunc('SetActionUIButton', action_Add)
 
-    for i, button in pairs(ActionBarButtonEventsFrame.frames) do
-      action_Add(button, button.action, button.cooldown);
+    for _, button in pairs(ActionBarButtonEventsFrame.frames) do
+      action_Add(button, button.action, button.cooldown)
     end
-
 end
 
 function FastCooldownTimer:initFontStyle()
@@ -316,35 +334,39 @@ function FastCooldownTimer:initFontStyle()
 end
 
 function FastCooldownTimer.SetCooldown(frame, start, duration, enable, forceShowDrawEdge, modRate)
-    local fname = frame:GetName()
-
+    -- 1) Name + Blacklist zuerst
+    local fname = SafeGetName(frame)
     if FastCooldownTimer:CheckBlacklist(fname) then
         return
     end
-    
-    frame:SetAlpha(FastCooldownTimer.db.profile.hideAnimation and 0 or 1)
 
-    if enable and enable ~= 0 and start > 0 and duration > FastCooldownTimer.db.profile.minimumDuration then
+    -- 2) Blizzard-Swirl ggf. ausblenden (pcall-gesichert)
+    if FastCooldownTimer.db.profile.hideAnimation then
+        SafeCall(frame, "SetAlpha", 0)
+    else
+        SafeCall(frame, "SetAlpha", 1)
+    end
+
+    -- 3) Eigene Anzeige steuern
+    if enable and enable ~= 0 and start and start > 0 and duration and duration > FastCooldownTimer.db.profile.minimumDuration then
         local FCT = frame.cooldownCounFrame
         if not FCT then
             FCT = FastCooldownTimer:CreateFastCooldownTimer(frame, start, duration)
             if not FCT then
-                --print("FastCooldownTimer: Error - Failed to create FCT frame for:", fname)
                 return
             end
             frame.cooldownCounFrame = FCT
         end
 
-        if FCT then
-            FCT.start = start
-            FCT.duration = duration
-            FCT.timeToNextUpdate = 0
-            if not FCT:IsShown() then
-                FCT:Show()
-            end
+        -- Update Werte je Aufruf
+        FCT.start = start
+        FCT.duration = duration
+        FCT.timeToNextUpdate = 0
+        if not FCT:IsShown() then
+            FCT:Show()
         end
     else
-        local FCT = frame.cooldownCounFrame
+        local FCT = frame and frame.cooldownCounFrame
         if FCT and FCT:IsShown() then
             FCT:Hide()
         end
@@ -352,11 +374,13 @@ function FastCooldownTimer.SetCooldown(frame, start, duration, enable, forceShow
 end
 
 function FastCooldownTimer:CreateFastCooldownTimer(frame, start, duration)
-    local fname = frame:GetName()
-    frame.cooldownCounFrame = CreateFrame("Frame", nil, frame:GetParent())
+    local parent = SafeGetParent(frame)
+    if not parent then return nil end
+
+    frame.cooldownCounFrame = CreateFrame("Frame", nil, parent)
     local textFrame = frame.cooldownCounFrame
 
-    textFrame:SetAllPoints(frame:GetParent())
+    textFrame:SetAllPoints(parent)
     textFrame:SetFrameLevel(textFrame:GetFrameLevel() + 5)
     textFrame:SetToplevel(true)
     textFrame.timeToNextUpdate = 0
@@ -364,24 +388,22 @@ function FastCooldownTimer:CreateFastCooldownTimer(frame, start, duration)
     textFrame.text = textFrame:CreateFontString(nil, "OVERLAY")
     textFrame.text:SetPoint("CENTER", textFrame, "CENTER", 0, -1)
 
-    local iconName = frame:GetParent() and frame:GetParent():GetName()
+    local iconName = SafeGetName(parent)
     if iconName then
         textFrame.icon = _G[iconName .. "Icon"] or _G[iconName .. "IconTexture"]
     end
-
     if not textFrame.icon then
-        --print("FastCooldownTimer: Error - Icon not found for frame: " .. (iconName or "nil"))
         return nil
     end
 
     textFrame:SetScript("OnUpdate", function(self, elapsed)
         if textFrame.timeToNextUpdate <= 0 or not textFrame.icon:IsVisible() then
             local current_time = GetTime()
-            if current_time < textFrame.start then return end
+            if not textFrame.start or current_time < textFrame.start then return end
 
             local remain = textFrame.duration - (current_time - textFrame.start)
 
-            if floor(remain + 1) > 0 and textFrame.icon:IsVisible() then
+            if math.floor(remain + 1) > 0 and textFrame.icon:IsVisible() then
                 local text, toNextUpdate, size, isWarn = FastCooldownTimer:GetFormattedTime(remain)
                 textFrame.text:SetFont(FastCooldownTimer.font, size, "OUTLINE")
                 local color = FastCooldownTimer.db.profile.color_common
@@ -401,9 +423,9 @@ function FastCooldownTimer:CreateFastCooldownTimer(frame, start, duration)
                 textFrame.text:SetTextColor(color.r, color.g, color.b)
                 if type(text) == "number" then
                     if text < 1 and FastCooldownTimer.db.profile.ShowDecimal then
-                        textFrame.text:SetText(format("%.1f", text))
+                        textFrame.text:SetText(string.format("%.1f", text))
                     else
-                        textFrame.text:SetText(format("%.0f", text))
+                        textFrame.text:SetText(string.format("%.0f", text))
                     end
                 else
                     textFrame.text:SetText(text)
@@ -423,7 +445,6 @@ function FastCooldownTimer:CreateFastCooldownTimer(frame, start, duration)
     end)
 
     textFrame:Hide()
-
     return textFrame
 end
 
@@ -442,33 +463,30 @@ function FastCooldownTimer:Child_OnHide(self, event, ...)
 end
 
 function FastCooldownTimer:GetFormattedTime(secs)
-	local addSec = (FastCooldownTimer.db.profile.UseBlizCounter and 0) or 1;
+	local addSec = (FastCooldownTimer.db.profile.UseBlizCounter and 0) or 1
 	if secs >= 86400 then
-		return ceil(secs / 86400) .. L["d"], mod(secs, 86400), FastCooldownTimer.db.profile.size1
+		return math.ceil(secs / 86400) .. L["d"], math.fmod(secs, 86400), FastCooldownTimer.db.profile.size1
 	elseif secs >= 3600 then
-		return ceil(secs / 3600) .. L["h"], mod(secs, 3600), FastCooldownTimer.db.profile.size1
+		return math.ceil(secs / 3600) .. L["h"], math.fmod(secs, 3600), FastCooldownTimer.db.profile.size1
 	elseif secs >= 600 then
-		return ceil(secs / 60) .. L["m"], mod(secs, 60), FastCooldownTimer.db.profile.size1
+		return math.ceil(secs / 60) .. L["m"], math.fmod(secs, 60), FastCooldownTimer.db.profile.size1
 	elseif secs >= 60 then
-		if FastCooldownTimer.db.profile.ShowSeconds
-		then
-			return sformat("%d:%02d", floor((secs+addSec) / 60), floor(mod(secs+addSec, 60))), 0.100, FastCooldownTimer.db.profile.size1
+		if FastCooldownTimer.db.profile.ShowSeconds then
+			return sformat("%d:%02d", math.floor((secs+addSec) / 60), math.floor(math.fmod(secs+addSec, 60))), 0.100, FastCooldownTimer.db.profile.size1
 		end
-		return ceil(secs / 60) .. L["m"], mod(secs, 60), FastCooldownTimer.db.profile.size2
+		return math.ceil(secs / 60) .. L["m"], math.fmod(secs, 60), FastCooldownTimer.db.profile.size2
 	elseif secs >= 10 then
-		return floor(secs+addSec), 0.100, FastCooldownTimer.db.profile.size3
+		return math.floor(secs+addSec), 0.100, FastCooldownTimer.db.profile.size3
 	elseif secs >= 2 then
-		return floor(secs+addSec), 0.050, FastCooldownTimer.db.profile.size4, true
+		return math.floor(secs+addSec), 0.050, FastCooldownTimer.db.profile.size4, true
 	elseif secs >= 1 then
-		return floor(secs+addSec), 0.025, FastCooldownTimer.db.profile.size4, true
+		return math.floor(secs+addSec), 0.025, FastCooldownTimer.db.profile.size4, true
 	end
-	if(FastCooldownTimer.db.profile.ShowDecimal)
-	then
+	if FastCooldownTimer.db.profile.ShowDecimal then
 		return secs, 0.010, FastCooldownTimer.db.profile.size2, true
 	end
-	return floor(secs+addSec), 0.010, FastCooldownTimer.db.profile.size4, true
+	return math.floor(secs+addSec), 0.010, FastCooldownTimer.db.profile.size4, true
 end
-
 
 function FastCooldownTimer:StartToShine(textFrame)
 	local shineFrame = textFrame.shine or FastCooldownTimer:CreateShineFrame(textFrame:GetParent())
@@ -511,19 +529,24 @@ function FastCooldownTimer:Shine_Update()
 end
 
 function FastCooldownTimer:CheckBlacklist(frameName)
-    if not frameName or _G[frameName].noFastCooldownTimer then
+    -- Robust: niemals _G[frameName] indexen, wenn nil
+    if not frameName then
+        return true
+    end
+    local f = _G[frameName]
+    if f and f.noFastCooldownTimer then
         return true
     end
     for _, v in ipairs(blacklist) do
         if strfind(frameName, v) then
-            _G[frameName].noFastCooldownTimer = true
+            if f then f.noFastCooldownTimer = true end
             return true
         end
     end
     if FastCooldownTimer.db.profile.blacklist then
         for _, v in ipairs(FastCooldownTimer.db.profile.blacklist) do
             if strfind(frameName, v) then
-                _G[frameName].noFastCooldownTimer = true
+                if f then f.noFastCooldownTimer = true end
                 return true
             end
         end
@@ -532,108 +555,88 @@ function FastCooldownTimer:CheckBlacklist(frameName)
 end
 
 local function FastCooldownTimer_ChatPrint(str,r,g,b)
-  if(DEFAULT_CHAT_FRAME)
-  then
-    DEFAULT_CHAT_FRAME:AddMessage("FastCooldownTimer: "..str, r or 1.0, g or 0.7, b or 0.15);
+  if DEFAULT_CHAT_FRAME then
+    DEFAULT_CHAT_FRAME:AddMessage("FastCooldownTimer: "..str, r or 1.0, g or 0.7, b or 0.15)
   end
 end
 
 local function FastCooldownTimer_ShowHelp()
-  FastCooldownTimer_ChatPrint("Usage:");
-  FastCooldownTimer_ChatPrint("  |cffffffff/fct options|r - "..L["Opens options panel"]);
-  FastCooldownTimer_ChatPrint("  |cffffffff/fct bl add <FrameName>|r - "..L["Adds a frame to the user blacklist"]);
-  FastCooldownTimer_ChatPrint("  |cffffffff/fct bl del <FrameName>|r - "..L["Removes a frame from the user blacklist"]);
-  FastCooldownTimer_ChatPrint("  |cffffffff/fct bl list|r - "..L["List user blacklisted frames"]);
+  FastCooldownTimer_ChatPrint("Usage:")
+  FastCooldownTimer_ChatPrint("  |cffffffff/fct options|r - "..L["Opens options panel"])
+  FastCooldownTimer_ChatPrint("  |cffffffff/fct bl add <FrameName>|r - "..L["Adds a frame to the user blacklist"])
+  FastCooldownTimer_ChatPrint("  |cffffffff/fct bl del <FrameName>|r - "..L["Removes a frame from the user blacklist"])
+  FastCooldownTimer_ChatPrint("  |cffffffff/fct bl list|r - "..L["List user blacklisted frames"])
 end
 
 local function FastCooldownTimer_Commands(command)
-  local _,_,cmd,param = strfind(command,"^([^ ]+) (.+)$");
-  if(not cmd) then cmd = command; end
-  if(not cmd) then cmd = ""; end
-  if(not param) then param = ""; end
+  local _,_,cmd,param = strfind(command,"^([^ ]+) (.+)$")
+  if(not cmd) then cmd = command end
+  if(not cmd) then cmd = "" end
+  if(not param) then param = "" end
 
-  if((cmd == "") or (cmd == "help"))
-  then
-    FastCooldownTimer_ShowHelp();
-  elseif(cmd == "options")
-  then
-    InterfaceOptionsFrame_OpenToCategory("FastCooldownTimer");
-  elseif(cmd == "bl")
-  then
-    local _,_,cmd2,param2 = strfind(param,"^([^ ]+) (.+)$");
-    if(not cmd2) then cmd2 = param; end
-    if(not cmd2) then cmd2 = ""; end
-    if(not param2) then param2 = ""; end
-    if(cmd2 == "add")
-    then
-      if(param2 == "")
-      then
-        FastCooldownTimer_ChatPrint(L["Missing parameter for 'blacklist add' command"]);
-        FastCooldownTimer_ShowHelp();
+  if((cmd == "") or (cmd == "help")) then
+    FastCooldownTimer_ShowHelp()
+  elseif(cmd == "options") then
+    InterfaceOptionsFrame_OpenToCategory("FastCooldownTimer")
+  elseif(cmd == "bl") then
+    local _,_,cmd2,param2 = strfind(param,"^([^ ]+) (.+)$")
+    if(not cmd2) then cmd2 = param end
+    if(not cmd2) then cmd2 = "" end
+    if(not param2) then param2 = "" end
+    if(cmd2 == "add") then
+      if(param2 == "") then
+        FastCooldownTimer_ChatPrint(L["Missing parameter for 'blacklist add' command"])
+        FastCooldownTimer_ShowHelp()
       else
-        if(_G[param2] == nil)
-        then
-          FastCooldownTimer_ChatPrint(sformat(L["Frame '%s' is not known. Cannot add it to user blacklist."],param2));
+        if(_G[param2] == nil) then
+          FastCooldownTimer_ChatPrint(sformat(L["Frame '%s' is not known. Cannot add it to user blacklist."],param2))
         else
-          if(FastCooldownTimer.db.profile.blacklist == nil)
-          then
-            FastCooldownTimer.db.profile.blacklist = {};
-          end
-          tinsert(FastCooldownTimer.db.profile.blacklist,param2);
-          FastCooldownTimer_ChatPrint(sformat(L["Frame '%s' added to user blacklist."],param2));
+          FastCooldownTimer.db.profile.blacklist = FastCooldownTimer.db.profile.blacklist or {}
+          tinsert(FastCooldownTimer.db.profile.blacklist,param2)
+          FastCooldownTimer_ChatPrint(sformat(L["Frame '%s' added to user blacklist."],param2))
         end
       end
-    elseif(cmd2 == "del")
-    then
-      if(param2 == "")
-      then
-        FastCooldownTimer_ChatPrint(L["Missing parameter for 'blacklist del' command"]);
-        FastCooldownTimer_ShowHelp();
+    elseif(cmd2 == "del") then
+      if(param2 == "") then
+        FastCooldownTimer_ChatPrint(L["Missing parameter for 'blacklist del' command"])
+        FastCooldownTimer_ShowHelp()
       else
-        if(FastCooldownTimer.db.profile.blacklist == nil)
-        then
-          FastCooldownTimer.db.profile.blacklist = {};
-        end
-        for i,v in ipairs(FastCooldownTimer.db.profile.blacklist)
-        do
-          if(param2 == v)
-          then
-            tremove(FastCooldownTimer.db.profile.blacklist,i);
-            FastCooldownTimer_ChatPrint(sformat(L["Frame '%s' removed from user blacklist."],param2));
-            return;
+        FastCooldownTimer.db.profile.blacklist = FastCooldownTimer.db.profile.blacklist or {}
+        for i,v in ipairs(FastCooldownTimer.db.profile.blacklist) do
+          if(param2 == v) then
+            tremove(FastCooldownTimer.db.profile.blacklist,i)
+            FastCooldownTimer_ChatPrint(sformat(L["Frame '%s' removed from user blacklist."],param2))
+            return
           end
         end
-        FastCooldownTimer_ChatPrint(sformat(L["Frame '%s' is not in user blacklist."],param2));
+        FastCooldownTimer_ChatPrint(sformat(L["Frame '%s' is not in user blacklist."],param2))
       end
-    elseif(cmd2 == "list")
-    then
-      FastCooldownTimer_ChatPrint(L["User blacklist:"]);
-      if(FastCooldownTimer.db.profile.blacklist)
-      then
-        for _, v in ipairs(FastCooldownTimer.db.profile.blacklist)
-        do
-          FastCooldownTimer_ChatPrint(" - "..v);
+    elseif(cmd2 == "list") then
+      FastCooldownTimer_ChatPrint(L["User blacklist:"])
+      if(FastCooldownTimer.db.profile.blacklist) then
+        for _, v in ipairs(FastCooldownTimer.db.profile.blacklist) do
+          FastCooldownTimer_ChatPrint(" - "..v)
         end
       end
-      FastCooldownTimer_ChatPrint(L["End of list"]);
+      FastCooldownTimer_ChatPrint(L["End of list"])
     else
-      FastCooldownTimer_ChatPrint(sformat(L["Unknown or missing parameter for 'blacklist' command: %s"],param));
-      FastCooldownTimer_ShowHelp();
+      FastCooldownTimer_ChatPrint(sformat(L["Unknown or missing parameter for 'blacklist' command: %s"],param))
+      FastCooldownTimer_ShowHelp()
     end
   else
-    FastCooldownTimer_ChatPrint(sformat(L["Unknown command: %s"],cmd));
-    FastCooldownTimer_ShowHelp();
+    FastCooldownTimer_ChatPrint(sformat(L["Unknown command: %s"],cmd))
+    FastCooldownTimer_ShowHelp()
   end
 end
 
-SLASH_FastCooldownTimer1 = "/FastCooldownTimer";
+SLASH_FastCooldownTimer1 = "/FastCooldownTimer"
 SlashCmdList["FastCooldownTimer"] = function(msg)
-  FastCooldownTimer_Commands(msg);
+  FastCooldownTimer_Commands(msg)
 end
 
-SLASH_FCT1 = "/fct";
+SLASH_FCT1 = "/fct"
 SlashCmdList["FCT"] = function(msg)
-  FastCooldownTimer_Commands(msg);
+  FastCooldownTimer_Commands(msg)
 end
 
 local f = CreateFrame('Frame'); f:Hide()
@@ -645,4 +648,4 @@ end)
 
 f:RegisterEvent('ACTIONBAR_UPDATE_COOLDOWN')
 
-FastCooldownTimer_ChatPrint(sformat(L["FastCooldownTimer v%s loaded!\nType /FastCooldownTimer (or /fct) for help"],C_AddOns.GetAddOnMetadata("FastCooldownTimer", "Version")));
+FastCooldownTimer_ChatPrint(sformat(L["FastCooldownTimer v%s loaded!\nType /FastCooldownTimer (or /fct) for help"], C_AddOns.GetAddOnMetadata("FastCooldownTimer", "Version")))
