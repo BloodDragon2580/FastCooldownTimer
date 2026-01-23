@@ -320,12 +320,42 @@ local function actions_Update()
 end
 
 function FastCooldownTimer:OnEnable()
-	self:initFontStyle()
-	hooksecurefunc("CooldownFrame_Set", FastCooldownTimer.SetCooldown)
-    hooksecurefunc('SetActionUIButton', action_Add)
+    self:initFontStyle()
 
-    for _, button in pairs(ActionBarButtonEventsFrame.frames) do
-      action_Add(button, button.action, button.cooldown)
+    -- Legacy Hook (falls irgendwo noch benutzt)
+    if _G.CooldownFrame_Set then
+        hooksecurefunc("CooldownFrame_Set", FastCooldownTimer.SetCooldown)
+    end
+
+    -- ✅ WoW 12.0+: robust hooken (Mixin + Metatable)
+    if _G.CooldownFrameMixin and _G.CooldownFrameMixin.SetCooldown then
+        hooksecurefunc(CooldownFrameMixin, "SetCooldown", function(frame, start, duration, modRate)
+            FastCooldownTimer.SetCooldown(frame, start, duration, 1, nil, modRate)
+        end)
+    end
+
+    do
+        local dummy = CreateFrame("Cooldown", nil, UIParent)
+        local mt = getmetatable(dummy)
+        local idx = mt and mt.__index
+        if type(idx) == "table" and type(idx.SetCooldown) == "function" then
+            hooksecurefunc(idx, "SetCooldown", function(frame, start, duration, modRate)
+                FastCooldownTimer.SetCooldown(frame, start, duration, 1, nil, modRate)
+            end)
+        end
+        dummy:Hide()
+    end
+
+    -- Optional: Blizzard-Actionbuttons (Bartender braucht das nicht, schadet aber nicht)
+    if _G.SetActionUIButton then
+        hooksecurefunc("SetActionUIButton", action_Add)
+    end
+    if _G.ActionBarButtonEventsFrame and _G.ActionBarButtonEventsFrame.frames then
+        for _, button in pairs(ActionBarButtonEventsFrame.frames) do
+            if button and button.cooldown then
+                action_Add(button, button.action, button.cooldown)
+            end
+        end
     end
 end
 
@@ -339,6 +369,11 @@ function FastCooldownTimer.SetCooldown(frame, start, duration, enable, forceShow
     if FastCooldownTimer:CheckBlacklist(fname) then
         return
     end
+	
+-- ✅ Blizzard kleine Cooldown-Zahlen ausblenden (sonst siehst du nur die Originalen)
+if frame and frame.SetHideCountdownNumbers then
+    frame:SetHideCountdownNumbers(true)
+end
 
     -- 2) Blizzard-Swirl ggf. ausblenden (pcall-gesichert)
     if FastCooldownTimer.db.profile.hideAnimation then
@@ -379,31 +414,56 @@ function FastCooldownTimer:CreateFastCooldownTimer(frame, start, duration)
 
     frame.cooldownCounFrame = CreateFrame("Frame", nil, parent)
     local textFrame = frame.cooldownCounFrame
+	-- ✅ Sichtbarkeits-Check: lieber der Button/Parent (nicht irgendeine Texture)
+	textFrame.visibleCheck = parent
+
 
     textFrame:SetAllPoints(parent)
-    textFrame:SetFrameLevel(textFrame:GetFrameLevel() + 5)
+
+    -- ✅ immer über Bartender/Skins liegen
+    textFrame:SetFrameStrata("TOOLTIP")
+    textFrame:SetFrameLevel(parent:GetFrameLevel() + 50)
     textFrame:SetToplevel(true)
     textFrame.timeToNextUpdate = 0
 
     textFrame.text = textFrame:CreateFontString(nil, "OVERLAY")
     textFrame.text:SetPoint("CENTER", textFrame, "CENTER", 0, -1)
 
-    local iconName = SafeGetName(parent)
-    if iconName then
-        textFrame.icon = _G[iconName .. "Icon"] or _G[iconName .. "IconTexture"]
+local iconName = SafeGetName(parent)
+if iconName then
+    textFrame.icon = _G[iconName .. "Icon"] or _G[iconName .. "IconTexture"]
+end
+
+-- ✅ WoW 12.0+: viele Buttons haben das Icon als Feld am Button
+if not textFrame.icon then
+    textFrame.icon =
+        parent.icon or parent.Icon or parent.iconTexture or parent.IconTexture
+end
+
+-- Manche Templates kapseln das in einer Unterstruktur
+if not textFrame.icon and parent.GetRegions then
+    -- Notfall: erste Texture-Region finden
+    local r1, r2, r3, r4, r5 = parent:GetRegions()
+    for _, r in ipairs({r1, r2, r3, r4, r5}) do
+        if r and r.GetObjectType and r:GetObjectType() == "Texture" then
+            textFrame.icon = r
+            break
+        end
     end
-    if not textFrame.icon then
-        return nil
-    end
+end
+
+if not textFrame.icon then
+    return nil
+end
 
     textFrame:SetScript("OnUpdate", function(self, elapsed)
-        if textFrame.timeToNextUpdate <= 0 or not textFrame.icon:IsVisible() then
+        if textFrame.timeToNextUpdate <= 0 or (textFrame.visibleCheck and not textFrame.visibleCheck:IsVisible()) then
             local current_time = GetTime()
             if not textFrame.start or current_time < textFrame.start then return end
 
             local remain = textFrame.duration - (current_time - textFrame.start)
 
-            if math.floor(remain + 1) > 0 and textFrame.icon:IsVisible() then
+            if math.floor(remain + 1) > 0 and (not textFrame.visibleCheck or textFrame.visibleCheck:IsVisible()) then
                 local text, toNextUpdate, size, isWarn = FastCooldownTimer:GetFormattedTime(remain)
                 textFrame.text:SetFont(FastCooldownTimer.font, size, "OUTLINE")
                 local color = FastCooldownTimer.db.profile.color_common
@@ -432,7 +492,7 @@ function FastCooldownTimer:CreateFastCooldownTimer(frame, start, duration)
                 end
                 textFrame.timeToNextUpdate = toNextUpdate
             else
-                if FastCooldownTimer.db.profile.shine and textFrame.icon:IsVisible() then
+                if FastCooldownTimer.db.profile.shine and textFrame.icon and textFrame.icon.IsVisible and textFrame.icon:IsVisible() then
                     FastCooldownTimer:StartToShine(textFrame.icon)
                 end
                 textFrame.isWarn = nil
@@ -529,9 +589,9 @@ function FastCooldownTimer:Shine_Update()
 end
 
 function FastCooldownTimer:CheckBlacklist(frameName)
-    -- Robust: niemals _G[frameName] indexen, wenn nil
+    -- In 12.0.0 sind viele Cooldown-Frames namenlos -> NICHT automatisch blacklisten
     if not frameName then
-        return true
+        return false
     end
     local f = _G[frameName]
     if f and f.noFastCooldownTimer then
