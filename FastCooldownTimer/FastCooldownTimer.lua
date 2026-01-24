@@ -29,6 +29,25 @@ local function SafeCall(obj, method, ...)
     local ok = pcall(fn, obj, ...)
     return ok
 end
+
+-- ✅ Secret-safe number extraction (WoW 12.0+)
+local function SafeNumber(v)
+    -- Liefert eine *normale* Zahl oder nil (kein "secret value")
+    local ok, n = pcall(function()
+        if v == nil then return nil end
+        return v + 0 -- triggert sofort, ob "secure/secret"
+    end)
+    if ok and type(n) == "number" then
+        return n
+    end
+    return nil
+end
+
+local function SafeCompareGT(a, b)
+    local ok, res = pcall(function() return a > b end)
+    if ok then return res end
+    return false
+end
 -- ----------------------------------------------------------------------------
 
 local defaults = {
@@ -369,11 +388,25 @@ function FastCooldownTimer.SetCooldown(frame, start, duration, enable, forceShow
     if FastCooldownTimer:CheckBlacklist(fname) then
         return
     end
-	
--- ✅ Blizzard kleine Cooldown-Zahlen ausblenden (sonst siehst du nur die Originalen)
-if frame and frame.SetHideCountdownNumbers then
-    frame:SetHideCountdownNumbers(true)
-end
+
+    -- ✅ Secret-safe: start/duration müssen echte numbers sein, sonst lassen wir Blizzard in Ruhe
+    local s = SafeNumber(start)
+    local d = SafeNumber(duration)
+    local e = SafeNumber(enable) or enable
+
+    -- Wenn Blizzard uns secret values gibt, NICHT anfassen (sonst Error + evtl. keine Anzeige)
+    if not s or not d then
+        local FCT = frame and frame.cooldownCounFrame
+        if FCT and FCT:IsShown() then
+            FCT:Hide()
+        end
+        return
+    end
+
+    -- ✅ Erst JETZT Blizzard-Zahlen ausblenden (weil wir sicher sind, dass wir anzeigen können)
+    if frame and frame.SetHideCountdownNumbers then
+        frame:SetHideCountdownNumbers(true)
+    end
 
     -- 2) Blizzard-Swirl ggf. ausblenden (pcall-gesichert)
     if FastCooldownTimer.db.profile.hideAnimation then
@@ -383,20 +416,21 @@ end
     end
 
     -- 3) Eigene Anzeige steuern
-    if enable and enable ~= 0 and start and start > 0 and duration and duration > FastCooldownTimer.db.profile.minimumDuration then
+    if e and e ~= 0 and SafeCompareGT(s, 0) and SafeCompareGT(d, FastCooldownTimer.db.profile.minimumDuration) then
         local FCT = frame.cooldownCounFrame
         if not FCT then
-            FCT = FastCooldownTimer:CreateFastCooldownTimer(frame, start, duration)
+            FCT = FastCooldownTimer:CreateFastCooldownTimer(frame, s, d)
             if not FCT then
                 return
             end
             frame.cooldownCounFrame = FCT
         end
 
-        -- Update Werte je Aufruf
-        FCT.start = start
-        FCT.duration = duration
+        -- ✅ Nur echte numbers speichern
+        FCT.start = s
+        FCT.duration = d
         FCT.timeToNextUpdate = 0
+
         if not FCT:IsShown() then
             FCT:Show()
         end
