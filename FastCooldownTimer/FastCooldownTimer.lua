@@ -48,6 +48,42 @@ local function SafeCompareGT(a, b)
     if ok then return res end
     return false
 end
+
+-- Make Blizzard cooldown numbers bigger + recolor to match addon (fallback for secret values in combat)
+local function FCT_EnlargeBlizzardNumbers(cooldownFrame)
+    if not cooldownFrame or cooldownFrame.__FCT_BlizzNumbersScaled then return end
+
+    -- Blizzard cooldown text is typically one of the regions of the Cooldown widget
+    local r1, r2, r3, r4, r5, r6 = cooldownFrame:GetRegions()
+    for _, r in ipairs({ r1, r2, r3, r4, r5, r6 }) do
+        if r and r.GetObjectType and r:GetObjectType() == "FontString" then
+            -- size + font
+            local size = (FastCooldownTimer and FastCooldownTimer.db
+                and FastCooldownTimer.db.profile
+                and FastCooldownTimer.db.profile.size3) or 24
+
+            local font = (FastCooldownTimer and FastCooldownTimer.font) or r:GetFont()
+            r:SetFont(font, size, "OUTLINE")
+            r:SetShadowOffset(0, 0)
+
+            -- ✅ recolor like addon
+            local col = (FastCooldownTimer and FastCooldownTimer.db
+                and FastCooldownTimer.db.profile
+                and FastCooldownTimer.db.profile.color_common)
+
+            if col then
+                local a = col.a or 1
+                r:SetTextColor(col.r or 1, col.g or 1, col.b or 1, a)
+            end
+
+            -- optional: keep it from being changed back easily
+            cooldownFrame.__FCT_BlizzTextRegion = r
+            break
+        end
+    end
+
+    cooldownFrame.__FCT_BlizzNumbersScaled = true
+end
 -- ----------------------------------------------------------------------------
 
 local defaults = {
@@ -389,13 +425,39 @@ function FastCooldownTimer.SetCooldown(frame, start, duration, enable, forceShow
         return
     end
 
-    -- ✅ Secret-safe: start/duration müssen echte numbers sein, sonst lassen wir Blizzard in Ruhe
+    -- ✅ Secret-safe: start/duration müssen echte numbers sein
     local s = SafeNumber(start)
     local d = SafeNumber(duration)
     local e = SafeNumber(enable) or enable
 
-    -- Wenn Blizzard uns secret values gibt, NICHT anfassen (sonst Error + evtl. keine Anzeige)
+    -- 🚨 WoW 12.0 / Midnight:
+    -- Im Kampf kommen oft "secret values"
+    -- → Eigene Anzeige AUS
+    -- → Blizzard-Zahlen EIN (groß + Addon-Farbe)
     if not s or not d then
+        if frame and frame.SetHideCountdownNumbers then
+            frame:SetHideCountdownNumbers(false)
+        end
+
+        -- Größe + Farbe der Blizzard-Zahlen setzen
+        FCT_EnlargeBlizzardNumbers(frame)
+
+        -- 🔒 Falls Blizzard/Skins die Farbe zurücksetzen → erneut erzwingen
+        if frame and frame.__FCT_BlizzTextRegion then
+            local col = FastCooldownTimer.db
+                and FastCooldownTimer.db.profile
+                and FastCooldownTimer.db.profile.color_common
+
+            if col then
+                frame.__FCT_BlizzTextRegion:SetTextColor(
+                    col.r or 1,
+                    col.g or 1,
+                    col.b or 1,
+                    col.a or 1
+                )
+            end
+        end
+
         local FCT = frame and frame.cooldownCounFrame
         if FCT and FCT:IsShown() then
             FCT:Hide()
@@ -403,7 +465,7 @@ function FastCooldownTimer.SetCooldown(frame, start, duration, enable, forceShow
         return
     end
 
-    -- ✅ Erst JETZT Blizzard-Zahlen ausblenden (weil wir sicher sind, dass wir anzeigen können)
+    -- ✅ Ab hier haben wir echte Zahlen → Blizzard-Zahlen AUS (wir zeigen unsere)
     if frame and frame.SetHideCountdownNumbers then
         frame:SetHideCountdownNumbers(true)
     end
@@ -416,7 +478,10 @@ function FastCooldownTimer.SetCooldown(frame, start, duration, enable, forceShow
     end
 
     -- 3) Eigene Anzeige steuern
-    if e and e ~= 0 and SafeCompareGT(s, 0) and SafeCompareGT(d, FastCooldownTimer.db.profile.minimumDuration) then
+    if e and e ~= 0
+        and SafeCompareGT(s, 0)
+        and SafeCompareGT(d, FastCooldownTimer.db.profile.minimumDuration) then
+
         local FCT = frame.cooldownCounFrame
         if not FCT then
             FCT = FastCooldownTimer:CreateFastCooldownTimer(frame, s, d)
