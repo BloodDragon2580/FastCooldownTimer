@@ -432,37 +432,90 @@ function FastCooldownTimer.SetCooldown(frame, start, duration, enable, forceShow
 
     -- 🚨 WoW 12.0 / Midnight:
     -- Im Kampf kommen oft "secret values"
-    -- → Eigene Anzeige AUS
-    -- → Blizzard-Zahlen EIN (groß + Addon-Farbe)
+    -- → Wir versuchen erst, echte Zeiten zu "retten", damit wir unseren Timer weiter nutzen können.
     if not s or not d then
-        if frame and frame.SetHideCountdownNumbers then
-            frame:SetHideCountdownNumbers(false)
-        end
+        local rs, rd
+        local parent = frame and frame:GetParent()
 
-        -- Größe + Farbe der Blizzard-Zahlen setzen
-        FCT_EnlargeBlizzardNumbers(frame)
-
-        -- 🔒 Falls Blizzard/Skins die Farbe zurücksetzen → erneut erzwingen
-        if frame and frame.__FCT_BlizzTextRegion then
-            local col = FastCooldownTimer.db
-                and FastCooldownTimer.db.profile
-                and FastCooldownTimer.db.profile.color_common
-
-            if col then
-                frame.__FCT_BlizzTextRegion:SetTextColor(
-                    col.r or 1,
-                    col.g or 1,
-                    col.b or 1,
-                    col.a or 1
-                )
+        -- ✅ Versuch 1: GetCooldownTimes (kann auch secret sein)
+        if frame and frame.GetCooldownTimes then
+            local ok, startMS, durMS = pcall(frame.GetCooldownTimes, frame)
+            if ok and startMS and durMS then
+                local startMSn = SafeNumber(startMS)
+                local durMSn   = SafeNumber(durMS)
+                if startMSn and durMSn then
+                    rs = startMSn / 1000
+                    rd = durMSn / 1000
+                end
             end
         end
 
-        local FCT = frame and frame.cooldownCounFrame
-        if FCT and FCT:IsShown() then
-            FCT:Hide()
+        -- ✅ Versuch 2: GetCooldownDuration()
+        if (not rs or not rd) and frame and frame.GetCooldownDuration then
+            local ok, startSec, durSec = pcall(frame.GetCooldownDuration, frame)
+            if ok and startSec and durSec then
+                rs = SafeNumber(startSec)
+                rd = SafeNumber(durSec)
+            end
         end
-        return
+
+        -- ✅ Versuch 3 (WICHTIG): ActionButton/Bartender -> über actionId retten
+        if (not rs or not rd) and parent and type(parent.action) == "number" then
+            local st, du, en = GetActionCooldown(parent.action)
+            local stn = SafeNumber(st)
+            local dun = SafeNumber(du)
+            if stn and dun then
+                rs = stn
+                rd = dun
+                e = SafeNumber(en) or en or e
+            end
+        end
+
+        -- ✅ Wenn wir echte Zahlen bekommen → wir nutzen wieder UNSEREN Timer (kein Blizzard MM:SS)
+        if rs and rd and rd > 0 then
+            s, d = rs, rd
+            -- Blizzard-Zahlen AUS, weil wir unseren Text anzeigen wollen
+            if frame and frame.SetHideCountdownNumbers then
+                frame:SetHideCountdownNumbers(true)
+            end
+            -- normaler Flow geht weiter (kein return!)
+        else
+            -- ❗ Wenn wir NICHT retten können → Blizzard-Fallback
+            -- ✅ Makro: Blizzard-Text AUS (sonst steht der Makro-Name über dem Icon)
+            if parent and parent.commandName then
+                if frame and frame.SetHideCountdownNumbers then
+                    frame:SetHideCountdownNumbers(true)
+                end
+            else
+                -- Spell/Item: Blizzard-Zahlen EIN + vergrößern + einfärben
+                if frame and frame.SetHideCountdownNumbers then
+                    frame:SetHideCountdownNumbers(false)
+                end
+
+                FCT_EnlargeBlizzardNumbers(frame)
+
+                if frame and frame.__FCT_BlizzTextRegion then
+                    local col = FastCooldownTimer.db
+                        and FastCooldownTimer.db.profile
+                        and FastCooldownTimer.db.profile.color_common
+
+                    if col then
+                        frame.__FCT_BlizzTextRegion:SetTextColor(
+                            col.r or 1,
+                            col.g or 1,
+                            col.b or 1,
+                            col.a or 1
+                        )
+                    end
+                end
+            end
+
+            local FCT = frame and frame.cooldownCounFrame
+            if FCT and FCT:IsShown() then
+                FCT:Hide()
+            end
+            return
+        end
     end
 
     -- ✅ Ab hier haben wir echte Zahlen → Blizzard-Zahlen AUS (wir zeigen unsere)
@@ -491,7 +544,6 @@ function FastCooldownTimer.SetCooldown(frame, start, duration, enable, forceShow
             frame.cooldownCounFrame = FCT
         end
 
-        -- ✅ Nur echte numbers speichern
         FCT.start = s
         FCT.duration = d
         FCT.timeToNextUpdate = 0
@@ -622,29 +674,39 @@ function FastCooldownTimer:Child_OnHide(self, event, ...)
 end
 
 function FastCooldownTimer:GetFormattedTime(secs)
-	local addSec = (FastCooldownTimer.db.profile.UseBlizCounter and 0) or 1
-	if secs >= 86400 then
-		return math.ceil(secs / 86400) .. L["d"], math.fmod(secs, 86400), FastCooldownTimer.db.profile.size1
-	elseif secs >= 3600 then
-		return math.ceil(secs / 3600) .. L["h"], math.fmod(secs, 3600), FastCooldownTimer.db.profile.size1
-	elseif secs >= 600 then
-		return math.ceil(secs / 60) .. L["m"], math.fmod(secs, 60), FastCooldownTimer.db.profile.size1
-	elseif secs >= 60 then
-		if FastCooldownTimer.db.profile.ShowSeconds then
-			return sformat("%d:%02d", math.floor((secs+addSec) / 60), math.floor(math.fmod(secs+addSec, 60))), 0.100, FastCooldownTimer.db.profile.size1
-		end
-		return math.ceil(secs / 60) .. L["m"], math.fmod(secs, 60), FastCooldownTimer.db.profile.size2
-	elseif secs >= 10 then
-		return math.floor(secs+addSec), 0.100, FastCooldownTimer.db.profile.size3
-	elseif secs >= 2 then
-		return math.floor(secs+addSec), 0.050, FastCooldownTimer.db.profile.size4, true
-	elseif secs >= 1 then
-		return math.floor(secs+addSec), 0.025, FastCooldownTimer.db.profile.size4, true
-	end
-	if FastCooldownTimer.db.profile.ShowDecimal then
-		return secs, 0.010, FastCooldownTimer.db.profile.size2, true
-	end
-	return math.floor(secs+addSec), 0.010, FastCooldownTimer.db.profile.size4, true
+    local addSec = (FastCooldownTimer.db.profile.UseBlizCounter and 0) or 1
+
+    if secs >= 86400 then
+        return math.ceil(secs / 86400) .. L["d"], math.fmod(secs, 86400), FastCooldownTimer.db.profile.size1
+
+    elseif secs >= 3600 then
+        return math.ceil(secs / 3600) .. L["h"], math.fmod(secs, 3600), FastCooldownTimer.db.profile.size1
+
+    elseif secs >= 600 then
+        return math.ceil(secs / 60) .. L["m"], math.fmod(secs, 60), FastCooldownTimer.db.profile.size1
+
+    elseif secs >= 60 then
+        if FastCooldownTimer.db.profile.ShowSeconds then
+            -- ✅ Gesamtsekunden statt MM:SS (70 statt 1:10)
+            return math.floor(secs + addSec), 0.100, FastCooldownTimer.db.profile.size2
+        end
+        return math.ceil(secs / 60) .. L["m"], math.fmod(secs, 60), FastCooldownTimer.db.profile.size2
+
+    elseif secs >= 10 then
+        return math.floor(secs + addSec), 0.100, FastCooldownTimer.db.profile.size3
+
+    elseif secs >= 2 then
+        return math.floor(secs + addSec), 0.050, FastCooldownTimer.db.profile.size4, true
+
+    elseif secs >= 1 then
+        return math.floor(secs + addSec), 0.025, FastCooldownTimer.db.profile.size4, true
+    end
+
+    if FastCooldownTimer.db.profile.ShowDecimal then
+        return secs, 0.010, FastCooldownTimer.db.profile.size2, true
+    end
+
+    return math.floor(secs + addSec), 0.010, FastCooldownTimer.db.profile.size4, true
 end
 
 function FastCooldownTimer:StartToShine(textFrame)
